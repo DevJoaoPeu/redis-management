@@ -8,8 +8,15 @@ export class AppService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async setCache(dto: CacheDto) {
-    const { key, name } = dto;
-    await this.cacheManager.set(key, name, 600);
+    const { email, key, name } = dto;
+    const existing = await this.cacheManager.get(key);
+
+    const value = { email, name };
+
+    const newList = Array.isArray(existing) ? [...existing, value] : [value];
+
+    await this.cacheManager.set(key, newList);
+    return { message: `Valor adicionado à lista da chave: ${key}` };
   }
 
   async getCache(key: string) {

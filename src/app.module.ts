@@ -8,8 +8,10 @@ import * as redisStore from 'cache-manager-ioredis';
   imports: [
     CacheModule.register({
       store: redisStore,
-      host: 'localhost',
+      host: 'redis',
       port: 6379,
+      password: '123456',
+      ttl: 0,
     }),
   ],
   controllers: [AppController],
